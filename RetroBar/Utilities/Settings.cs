@@ -334,6 +334,13 @@ namespace RetroBar.Utilities
             set => Set(ref _showExitMenuItem, value);
         }
 
+        private bool _showEndTaskButton = false;
+        public bool ShowEndTaskButton
+        {
+            get => _showEndTaskButton;
+            set => Set(ref _showEndTaskButton, value);
+        }
+
         private bool _showStartButtonMultiMon = false;
         public bool ShowStartButtonMultiMon
         {
@@ -360,6 +367,13 @@ namespace RetroBar.Utilities
         {
             get => _showClockSeconds;
             set => Set(ref _showClockSeconds, value);
+        }
+
+        private WinNumHotkeysOption _winNumHotkeysAction = WinNumHotkeysOption.WindowsDefault;
+        public WinNumHotkeysOption WinNumHotkeysAction
+        {
+            get => _winNumHotkeysAction;
+            set => SetEnum(ref _winNumHotkeysAction, value);
         }
         #endregion
 
@@ -433,6 +447,13 @@ namespace RetroBar.Utilities
         OpenAeroCalendar,
         OpenModernCalendar,
         OpenNotificationCenter,
+    }
+
+    public enum WinNumHotkeysOption
+    {
+        WindowsDefault,
+        SwitchTasks,
+        InvokeQuickLaunch,
     }
 
     public enum NotifyIconBehavior

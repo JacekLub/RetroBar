@@ -20,12 +20,16 @@
                          RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}" />
             </DockPanel.Dock>
         </Thumb>
-        <TextBlock Style="{DynamicResource InputLanguage}"
-                   Text="{Binding Path=LocaleIdentifierProperty, Converter={StaticResource cultureInfoToLocaleNameConverter}, ConverterParameter=TwoLetterIsoLanguageName, Mode=OneWay}">
-        </TextBlock>
+        <WrapPanel x:Name="InputLanguageDockPanel"
+                   Style="{DynamicResource LanguageBar}">
+            <TextBlock x:Name="InputLanguageText"
+                   Style="{DynamicResource InputLanguage}"
+                   Text="{Binding Path=LocaleIdentifier, Converter={StaticResource cultureInfoToLocaleNameConverter}, ConverterParameter=TwoLetterIsoLanguageName, Mode=OneWay}">
+            </TextBlock>
+        </WrapPanel>
     </DockPanel>
 
     <UserControl.ToolTip>
-        <TextBlock Text="{Binding Path=LocaleIdentifierProperty, Converter={StaticResource cultureInfoToLocaleNameConverter}, ConverterParameter=EnglishName, Mode=OneWay}" />
+        <TextBlock Text="{Binding Path=LocaleIdentifier, Converter={StaticResource cultureInfoToLocaleNameConverter}, ConverterParameter=EnglishName, Mode=OneWay}" />
     </UserControl.ToolTip>
 </UserControl>

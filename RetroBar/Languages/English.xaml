@@ -75,9 +75,18 @@
     <s:String x:Key="debug_logging">Enable _debug logging</s:String>
     <s:String x:Key="check_for_updates">Check for u_pdates</s:String>
     <s:String x:Key="show_exit_menu_item">Show E_xit option in right-click menu</s:String>
+    <s:String x:Key="show_end_task_button">Show End _task option in right-click menu</s:String>
     <s:String x:Key="slide_taskbar_buttons">Slid_e taskbar buttons</s:String>
     <s:String x:Key="show_clock_seconds">S_how seconds in the clock</s:String>
     <s:String x:Key="open_custom_themes_folder">Open custom themes folder</s:String>
+    <s:String x:Key="win_num_hotkeys_action">Win+[0-9] _hotkeys action:</s:String>
+    <x:Array x:Key="win_num_hotkeys_action_values" Type="s:String">
+        <s:String>Windows default</s:String>
+        <s:String>Switch tasks</s:String>
+        <s:String>Open Quick Launch item</s:String>
+    </x:Array>
+    <s:String x:Key="hotkey_warning_title">RetroBar Hotkeys</s:String>
+    <s:String x:Key="hotkey_warning_text">RetroBar will override Windows taskbar hotkeys. Even if RetroBar is closed, they will not be restored to Windows until you log out and back in.</s:String>
     <s:String x:Key="ok_dialog">OK</s:String>
 
     <s:String x:Key="customize_notifications">Customize Notifications</s:String>
@@ -130,11 +139,31 @@
     <s:String x:Key="minimize">Mi_nimize</s:String>
     <s:String x:Key="maximize">Ma_ximize</s:String>
     <s:String x:Key="close">_Close</s:String>
+    <s:String x:Key="end_task">_End task</s:String>
 
     <s:String x:Key="show_hidden">Show hidden icons</s:String>
     <s:String x:Key="hide">Hide</s:String>
 
     <s:String x:Key="open_folder">&amp;Open Folder</s:String>
+
+    <s:String x:Key="ime_input_tip_enabled">Right-click for IME options</s:String>
+    <s:String x:Key="ime_input_tip_disabled">IME disabled</s:String>
+    <s:String x:Key="ime_input_full_shape_hiragana">Hiragana</s:String>
+    <s:String x:Key="ime_input_full_shape_katakana">Full-width Katakana</s:String>
+    <s:String x:Key="ime_input_full_shape_alphanumeric">Full-width Alphanumeric</s:String>
+    <s:String x:Key="ime_input_katakana">Half-width Katakana</s:String>
+    <s:String x:Key="ime_input_alphanumeric">Half-width Alphanumeric</s:String>
+    <s:String x:Key="ime_input_direct">Direct Input</s:String>
+    <s:String x:Key="ime_open_pad">IME Pad</s:String>
+    <s:String x:Key="ime_open_add_word_dictionary">Add Word</s:String>
+    <s:String x:Key="ime_open_dictionary_tool">Add-on dictionary</s:String>
+    <s:String x:Key="ime_open_properties">Settings</s:String>
+    <s:String x:Key="ime_input_key">Kana Input</s:String>
+    <s:String x:Key="ime_input_key_roma">Off</s:String>
+    <s:String x:Key="ime_input_key_kana">On</s:String>
+    <s:String x:Key="ime_conversion">Conversion Mode</s:String>
+    <s:String x:Key="ime_conversion_general">General</s:String>
+    <s:String x:Key="ime_conversion_none">No Conversion</s:String>
 
     <!-- Items below are settings, and should always be in English -->
     <FlowDirection x:Key="flow_direction">LeftToRight</FlowDirection>

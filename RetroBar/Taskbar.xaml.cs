@@ -52,17 +52,22 @@ namespace RetroBar
         private bool _mouseDragResize = false;
         private DictionaryManager _dictionaryManager;
         private ShellManager _shellManager;
+        private StartMenuMonitor _startMenuMonitor;
         private Updater _updater;
-
+        private bool _fullScreenSuppressed;
+        
         public WindowManager windowManager;
+        public HotkeyManager hotkeyManager;
 
-        public Taskbar(WindowManager windowManager, DictionaryManager dictionaryManager, ShellManager shellManager, StartMenuMonitor startMenuMonitor, Updater updater, AppBarScreen screen, AppBarEdge edge, AppBarMode mode)
+        public Taskbar(WindowManager windowManager, DictionaryManager dictionaryManager, ShellManager shellManager, StartMenuMonitor startMenuMonitor, Updater updater, HotkeyManager hotkeyManager, AppBarScreen screen, AppBarEdge edge, AppBarMode mode)
             : base(shellManager.AppBarManager, shellManager.ExplorerHelper, shellManager.FullScreenHelper, screen, edge, mode, 0)
         {
             _dictionaryManager = dictionaryManager;
             _shellManager = shellManager;
+            _startMenuMonitor = startMenuMonitor;
             _updater = updater;
             this.windowManager = windowManager;
+            this.hotkeyManager = hotkeyManager;
 
             InitializeComponent();
             DataContext = _shellManager;
@@ -91,6 +96,49 @@ namespace RetroBar
             AutoHideElement = TaskbarContentControl;
 
             PropertyChanged += Taskbar_PropertyChanged;
+
+            _startMenuMonitor.StartMenuVisibilityChanged += StartMenuMonitor_StartMenuVisibilityChanged;
+            _shellManager.TasksService.WindowActivated += TasksService_WindowActivated;
+        }
+
+        private void TasksService_WindowActivated(object sender, ManagedShell.WindowsTasks.WindowEventArgs e)
+        {
+            // If full-screen is suppressed, and a full-screen window is activated, it's time to un-suppress.
+
+            if (!_fullScreenSuppressed)
+            {
+                return;
+            }
+
+            _fullScreenSuppressed = false;
+
+            if (!HasFullScreenApp())
+            {
+                return;
+            }
+
+            for (int i = 0; i < _fullScreenHelper.FullScreenApps.Count; i++)
+            {
+                if (_fullScreenHelper.FullScreenApps[i].hWnd == e.Window.Handle)
+                {
+                    base.OnFullScreenEnter(_fullScreenHelper.FullScreenApps[i]);
+                    return;
+                }
+            }
+        }
+
+        private void StartMenuMonitor_StartMenuVisibilityChanged(object sender, StartMenuMonitor.StartMenuMonitorEventArgs e)
+        {
+            if (!HasFullScreenApp())
+            {
+                return;
+            }
+
+            if (e.Visible)
+            {
+                _fullScreenSuppressed = true;
+                base.OnFullScreenLeave();
+            }
         }
 
         private void Settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -235,6 +283,8 @@ namespace RetroBar
                 QuickLaunchToolbar.Visibility = Visibility.Collapsed;
 
                 Settings.Instance.PropertyChanged -= Settings_PropertyChanged;
+                _startMenuMonitor.StartMenuVisibilityChanged -= StartMenuMonitor_StartMenuVisibilityChanged;
+                _shellManager.TasksService.WindowActivated -= TasksService_WindowActivated;
             }
         }
 
@@ -468,6 +518,22 @@ namespace RetroBar
             }
 
             StartButton.Visibility = Visibility.Visible;
+        }
+
+        private bool HasFullScreenApp()
+        {
+            bool hasFullScreenApp = false;
+
+            foreach (var app in _fullScreenHelper.FullScreenApps)
+            {
+                if (app.screen.DeviceName == Screen.DeviceName || app.screen.IsVirtualScreen)
+                {
+                    hasFullScreenApp = true;
+                    break;
+                }
+            }
+
+            return hasFullScreenApp;
         }
 
         #region Unlocked taskbar drag hook
